@@ -1,16 +1,16 @@
-
 import { useState } from 'react';
-import { Menu, X, Search, Facebook, Twitter, Instagram } from 'lucide-react';
+import { Menu, X, Search, Facebook, Twitter, Instagram, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isEventsOpen, setIsEventsOpen] = useState(false);
 
   const navItems = [
     { name: 'Home', href: '#home' },
     { name: 'About', href: '#about' },
     { name: 'Gallery', href: '#gallery' },
-    { name: 'Events', href: '#events' },
+    { name: 'Events', href: '#events' }, // Events handled separately below
     { name: 'Resources', href: '#resources' },
     { name: 'Locations', href: '#locations' },
     { name: 'Register', href: '#register' },
@@ -45,16 +45,60 @@ const Header = () => {
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center space-x-6">
-              {navItems.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="text-gray-700 hover:text-spiritual-green transition-colors duration-300 font-medium"
-                >
-                  {item.name}
-                </a>
-              ))}
+            <nav className="hidden lg:flex items-center space-x-6 relative">
+              {navItems.map((item) =>
+                item.name === 'Events' ? (
+                  <div key="Events" className="relative">
+                    <button
+                      onClick={() => setIsEventsOpen(!isEventsOpen)}
+                      className="flex items-center space-x-1 text-gray-700 hover:text-spiritual-green transition-colors font-medium"
+                    >
+                      <span>Events</span>
+                      <ChevronDown className={`h-4 w-4 transition-transform ${isEventsOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                    {isEventsOpen && (
+                      <div className="absolute top-full mt-2 bg-white border rounded-md shadow-md z-50 w-56">
+                        <a
+                          href="#meditation"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-spiritual-green/10 hover:text-spiritual-green transition-colors"
+                          onClick={() => setIsEventsOpen(false)}
+                        >
+                          Meditation
+                        </a>
+                        <a
+                          href="#workshops"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-spiritual-green/10 hover:text-spiritual-green transition-colors"
+                          onClick={() => setIsEventsOpen(false)}
+                        >
+                          Workshops
+                        </a>
+                        <a
+                          href="#anandho"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-spiritual-green/10 hover:text-spiritual-green transition-colors"
+                          onClick={() => setIsEventsOpen(false)}
+                        >
+                          Anandho Brahma
+                        </a>
+                        <a
+                          href="#global-programs"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-spiritual-green/10 hover:text-spiritual-green transition-colors"
+                          onClick={() => setIsEventsOpen(false)}
+                        >
+                          Global Annual Programs
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className="text-gray-700 hover:text-spiritual-green transition-colors duration-300 font-medium"
+                  >
+                    {item.name}
+                  </a>
+                )
+              )}
             </nav>
 
             {/* Right side buttons */}
